@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CCF EPS Demi-fond — Lycée Pompidou</title>
+<style>
+  :root {
+    --bg: #f5f7fa;
+    --card: #ffffff;
+    --primary: #1a73e8;
+    --primary-dark: #1558b0;
+    --text: #1f2937;
+    --sub: #6b7280;
+    --border: #e5e7eb;
+    --accent: #f59e0b;
+    --green: #10b981;
+    --radius: 14px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+  }
+  header {
+    background: linear-gradient(135deg, #1a73e8 0%, #0d47a1 100%);
+    color: #fff;
+    padding: 56px 24px 48px;
+    text-align: center;
+  }
+  .logo-circle {
+    width: 88px; height: 88px;
+    background: rgba(255,255,255,0.18);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 44px;
+    margin: 0 auto 20px;
+    border: 3px solid rgba(255,255,255,0.4);
+  }
+  header h1 { font-size: clamp(1.5rem, 4vw, 2.2rem); font-weight: 700; margin-bottom: 8px; }
+  header p  { font-size: 1.05rem; opacity: 0.85; }
+  .school   { margin-top: 10px; font-size: 0.9rem; opacity: 0.7; }
+
+  main { max-width: 860px; margin: 0 auto; padding: 40px 20px 80px; }
+
+  .btn-download {
+    display: inline-flex; align-items: center; gap: 10px;
+    background: var(--primary);
+    color: #fff;
+    text-decoration: none;
+    padding: 16px 32px;
+    border-radius: 50px;
+    font-size: 1.1rem; font-weight: 600;
+    box-shadow: 0 4px 18px rgba(26,115,232,0.4);
+    transition: transform .15s, box-shadow .15s;
+  }
+  .btn-download:hover { transform: translateY(-2px); box-shadow: 0 6px 24px rgba(26,115,232,0.5); }
+  .download-wrap { text-align: center; margin: 36px 0 12px; }
+  .note-dl { text-align: center; font-size: 0.85rem; color: var(--sub); margin-bottom: 48px; }
+
+  .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 18px; margin-bottom: 48px; }
+  .feat-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 22px 20px;
+  }
+  .feat-icon { font-size: 2rem; margin-bottom: 10px; }
+  .feat-card h3 { font-size: 1rem; font-weight: 600; margin-bottom: 6px; }
+  .feat-card p  { font-size: 0.88rem; color: var(--sub); line-height: 1.5; }
+
+  h2 { font-size: 1.3rem; font-weight: 700; margin-bottom: 20px; }
+
+  .steps { counter-reset: step; display: flex; flex-direction: column; gap: 14px; margin-bottom: 48px; }
+  .step {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 18px 20px 18px 68px;
+    position: relative;
+  }
+  .step::before {
+    counter-increment: step;
+    content: counter(step);
+    position: absolute; left: 20px; top: 50%; transform: translateY(-50%);
+    width: 36px; height: 36px;
+    background: var(--primary);
+    color: #fff;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: 1rem;
+  }
+  .step h4 { font-size: 0.95rem; font-weight: 600; margin-bottom: 3px; }
+  .step p  { font-size: 0.85rem; color: var(--sub); }
+
+  .compat-table { width: 100%; border-collapse: collapse; background: var(--card); border-radius: var(--radius); overflow: hidden; border: 1px solid var(--border); margin-bottom: 48px; }
+  .compat-table th { background: #f3f4f6; font-size: 0.85rem; padding: 12px 16px; text-align: left; }
+  .compat-table td { padding: 12px 16px; font-size: 0.88rem; border-top: 1px solid var(--border); }
+  .badge-ok { color: var(--green); font-weight: 700; }
+
+  footer { text-align: center; font-size: 0.82rem; color: var(--sub); padding-bottom: 32px; }
+  footer a { color: var(--primary); text-decoration: none; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo-circle">🏃</div>
+  <h1>CCF EPS Demi-fond</h1>
+  <p>Outil numérique de notation — terrain &amp; bureau</p>
+  <p class="school">Lycée Georges Pompidou · Castelnau-le-Lez</p>
+</header>
+
+<main>
+
+  <div class="download-wrap">
+    <a class="btn-download" href="ccf_eps_v3.html" download>
+      ⬇ Télécharger l'outil (HTML, ~930 Ko)
+    </a>
+  </div>
+  <p class="note-dl">Un seul fichier · Fonctionne sans internet · iPad, iPhone, Android, PC</p>
+
+  <h2>Fonctionnalités</h2>
+  <div class="features">
+    <div class="feat-card">
+      <div class="feat-icon">⏱</div>
+      <h3>Chronomètre terrain</h3>
+      <p>Affichage large avec dixièmes de seconde. Glisser le temps sur l'élève pour saisie instantanée.</p>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon">📊</div>
+      <h3>Notes automatiques</h3>
+      <p>Calcul instantané /10 et /20 — barèmes GT, Professionnel, CAP intégrés (BO 2021).</p>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon">🏋</div>
+      <h3>Mode Entraînement</h3>
+      <p>500m + 2×1'30 avec notes indépendantes et zones de vitesse Z1→Z4.</p>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon">📤</div>
+      <h3>Export CSV &amp; Excel</h3>
+      <p>Exportez vos résultats en CSV ou XLSX sans aucune connexion internet.</p>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon">💾</div>
+      <h3>Sauvegarde auto</h3>
+      <p>Sauvegarde automatique toutes les 30 secondes. Import/Export JSON pour reprendre une session.</p>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon">📱</div>
+      <h3>PWA installable</h3>
+      <p>Installez l'icône sur l'écran d'accueil de votre iPad, iPhone ou tablette Android.</p>
+    </div>
+  </div>
+
+  <h2>Installation en 3 étapes</h2>
+  <div class="steps">
+    <div class="step">
+      <h4>Télécharger le fichier</h4>
+      <p>Cliquez sur le bouton ci-dessus pour télécharger <strong>ccf_eps_v3.html</strong> sur votre appareil.</p>
+    </div>
+    <div class="step">
+      <h4>Ouvrir dans le navigateur</h4>
+      <p>Ouvrez le fichier dans <strong>Safari</strong> (iPad/iPhone) ou <strong>Chrome</strong> (Android/PC). Aucune installation requise.</p>
+    </div>
+    <div class="step">
+      <h4>Optionnel — Ajouter à l'écran d'accueil</h4>
+      <p>Sur iPad : bouton Partager → « Sur l'écran d'accueil ». Sur Android : menu ⋮ → « Ajouter à l'écran d'accueil ».</p>
+    </div>
+  </div>
+
+  <h2>Compatibilité</h2>
+  <table class="compat-table">
+    <thead>
+      <tr><th>Appareil</th><th>Navigateur recommandé</th><th>Statut</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>iPad 8" / 10"</td><td>Safari</td><td class="badge-ok">✅ Recommandé</td></tr>
+      <tr><td>iPhone</td><td>Safari</td><td class="badge-ok">✅</td></tr>
+      <tr><td>Galaxy Tab / Android</td><td>Chrome</td><td class="badge-ok">✅</td></tr>
+      <tr><td>MacBook</td><td>Safari ou Chrome</td><td class="badge-ok">✅</td></tr>
+      <tr><td>PC Windows / Linux</td><td>Chrome ou Edge</td><td class="badge-ok">✅</td></tr>
+    </tbody>
+  </table>
+
+</main>
+
+<footer>
+  <p>Lycée Georges Pompidou · Castelnau-le-Lez · EPS Demi-fond CCF</p>
+  <p style="margin-top:6px"><a href="https://github.com/votre-compte/ccf-eps-demi-fond">GitHub du projet</a> · Usage pédagogique libre</p>
+</footer>
+
+</body>
+</html>
