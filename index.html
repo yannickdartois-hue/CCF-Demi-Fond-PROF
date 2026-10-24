@@ -1009,6 +1009,11 @@ body:not(.dark) .aok{color:var(--green)}
   .ccnb .nv{font-size:22px}
   .zc{padding:10px 13px;font-size:14px;min-height:44px}
 }
+/* Daltonisme : un signe en plus de la couleur (✓ atteint, ! limite, ✗ insuffisant) */
+.ok .entr-score-val::after,.ok .nv::after{content:" ✓";font-size:.7em;font-weight:900;vertical-align:.15em}
+.warn .entr-score-val::after,.warn .nv::after{content:" !";font-size:.7em;font-weight:900;vertical-align:.15em}
+.bad .entr-score-val::after,.bad .nv::after{content:" ✗";font-size:.7em;font-weight:900;vertical-align:.15em}
+td.tdk.ok::after{content:" ✓";font-size:.75em}td.tdk.warn::after{content:" !";font-size:.75em}
 </style>
 <style>
 /* ═══ POLICES EMBARQUÉES OFFLINE ═══ */
