@@ -1,7 +1,7 @@
 /* Hors ligne : l'appli est gardée sur l'appareil à la première ouverture avec internet,
    puis s'ouvre sans connexion. La page est rechargée depuis GitHub dès que le réseau répond (3 s max) ;
    les autres fichiers sont servis depuis l'appareil et mis à jour en arrière-plan. */
-const CACHE='ccf-demi-fond-prof-v7';
+const CACHE='ccf-demi-fond-prof-v8';
 // Toutes les applis partagent le même stockage (même adresse github.io) : on n'efface QUE les anciennes versions de CETTE appli.
 const MES_CACHES=/^(?:ccf\-demi\-fond\-prof\-v)\d+$/;
 
