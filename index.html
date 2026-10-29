@@ -1151,7 +1151,7 @@ td.tdk.ok::after{content:" ✓";font-size:.75em}td.tdk.warn::after{content:" !";
     <div class="hetag" id="hetag">Bac GT</div>
     <div class="hbadge"><span id="hdr-n">0</span><span id="hdr-prog" style="font-size:max(12px,var(--fs-min,15px));color:var(--muted);font-family:monospace;margin-left:5px"></span> élève(s)</div>
     <button class="theme-toggle" onclick="toggleTheme()" id="app-theme-btn" title="Jour / Nuit">☀️</button>
-    <button class="theme-toggle" onclick="goTab('aide')" title="Aide" style="font-size:16px">❓</button>
+    <button class="theme-toggle" onclick="EPSAide.ouvrir()" title="Mode d’emploi" aria-label="Mode d’emploi" style="font-size:16px">❓</button>
     <button onclick="goHome()" title="Retour accueil" style="width:44px;height:44px;border-radius:10px;border:2px solid var(--border2);background:var(--input-bg);color:var(--muted);cursor:pointer;font-size:17px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .15s" onmouseover="this.style.borderColor='var(--orange)'" onmouseout="this.style.borderColor='var(--border2)'">⚙</button>
   </div>
   <div class="tabs-bar" id="tabs-bar"></div>
@@ -2821,24 +2821,9 @@ function renderAidePage(){
 
   var html=
   // \u2500\u2500 MODE D'EMPLOI \u2500\u2500
-  '<div class="help-section"><div class="help-section-title">\ud83d\udcf1 Mode d\'emploi rapide</div>'+
-    '<div class="help-card"><div class="help-card-hdr">\ud83d\ude80 D\u00e9marrage</div><div class="help-card-body">'+
-      '<strong>1.</strong> Choisir le type d\'examen (Bac G&T, Bac Pro ou CAP)<br>'+
-      '<strong>2.</strong> Choisir le mode : <span class="hbadge-info">Terrain</span> (saisie en direct) ou <span class="hbadge-info">Bureau</span> (coller depuis Excel)<br>'+
-      '<strong>3.</strong> Importer la liste Pronote : Ressources \u2192 \u00c9l\u00e8ves \u2192 s\u00e9lectionner la classe \u2192 copier \u2192 coller dans Excel \u2192 glisser ici<br>'+
-      '<strong>4.</strong> Nommer la session (ex: TG06 \u2014 12 mars 2026) pour l\'identifier dans les exports'+
-    '</div></div>'+
-    '<div class="help-card"><div class="help-card-hdr">\u23f1 Saisie terrain</div><div class="help-card-body">'+
-      '<strong>500m :</strong> saisir le temps au format <span class="hbadge-info">m:ss</span> \u2014 ex: 2:18. La note s\'affiche en temps r\u00e9el.<br>'+
-      '<strong>1\'30 :</strong> saisir la <strong>distance pr\u00e9vue</strong> par l\'\u00e9l\u00e8ve (ex: 450m), puis cocher la zone d\'arriv\u00e9e observ\u00e9e.<br>'+
-      '<strong>ABS / DISP :</strong> boutons \u00e0 droite du nom \u2014 l\'\u00e9l\u00e8ve est exclu du calcul de la moyenne classe.<br>'+
-      '<strong>Ordre :</strong> boutons \u25b2 \u25bc pour r\u00e9organiser les \u00e9l\u00e8ves selon l\'ordre de passage.'+
-    '</div></div>'+
-    '<div class="help-card"><div class="help-card-hdr">\ud83d\udcbe Sauvegarde</div><div class="help-card-body">'+
-      '<strong>Automatique</strong> toutes les 30 secondes dans le navigateur.<br>'+
-      '<strong>\u26a0\ufe0f Toujours exporter en XLSX apr\u00e8s chaque \u00e9preuve</strong> \u2014 le cache navigateur peut \u00eatre vid\u00e9.<br>'+
-      'Ouvrir en <strong>navigation normale</strong> (pas priv\u00e9e) sur iPad/Galaxy Tab.'+
-    '</div></div>'+
+  '<div class="help-section"><div class="help-section-title">\ud83d\udcf1 Mode d\'emploi</div>'+
+    '<div class="help-card"><div class="help-card-body">D\u00e9marrage, chrono et attribution des temps, 1\'30, exports, sauvegarde : '+
+    '<button class="btn bor bsm" onclick="EPSAide.ouvrir()">Ouvrir le mode d\u2019emploi</button></div></div>'+
   '</div>'+
 
   // \u2500\u2500 BAR\u00c8MES \u2500\u2500
@@ -3162,6 +3147,23 @@ function toggleTheme(){
 
 
 
+<script>
+/* Chrono qui survit au rechargement et à la mise en veille : état gardé sur l'appareil, calculé sur l'heure réelle. */
+(function(){var K='ccf_chrono';
+function sv(){try{if(!_chronoRunning&&!_chronoElapsed&&!_splits.length)localStorage.removeItem(K);else localStorage.setItem(K,JSON.stringify({run:_chronoRunning,st:_chronoStart,el:_chronoElapsed,sp:_splits,b:_splitBaseNum,ts:Date.now()}))}catch(e){}}
+['chronoStartStop','chronoTap','chronoUndoLast','chronoReset','_renderSplits'].forEach(function(n){var f=window[n];window[n]=function(){var r=f.apply(this,arguments);sv();return r}});
+try{var o=JSON.parse(localStorage.getItem(K)||'null');
+  if(o&&Date.now()-o.ts<12*3600e3){_chronoElapsed=o.el||0;_splits=o.sp||[];_splitBaseNum=o.b||0;
+    if(o.run){chronoStartStop();_chronoStart=o.st;sv()}
+    else{document.getElementById('chrono-time').textContent=_fmtMs(_chronoElapsed);if(_chronoElapsed)document.getElementById('chrono-status').textContent='Arrêté — glissez les temps sur les élèves';_renderSplits()}
+    if(_splits.length)document.getElementById('chrono-undo').style.display='block'}}catch(e){}
+/* sauvegarde aussi dès que l'outil passe en arrière-plan (veille, changement d'appli) */
+function bg(){if(document.visibilityState==='hidden'&&typeof eleves!=='undefined'&&eleves.length)saveState()}
+document.addEventListener('visibilitychange',bg);addEventListener('pagehide',function(){if(eleves.length)saveState()});
+})();
+</script>
+<script src="aide.js"></script>
+<script src="eps-aide.js"></script>
 <script>if('serviceWorker' in navigator&&location.protocol==='https:'){addEventListener('load',function(){navigator.serviceWorker.register('sw.js').catch(function(){})})}</script>
 </body>
 </html>
