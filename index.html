@@ -1153,14 +1153,10 @@ body.attr-ouvert .chrono-fab,body.attr-ouvert .epsa-btn{display:none!important}
 .chrono-btns .chrono-btn.start,.chrono-btns .chrono-btn.stop{border-right:0;height:52px;font-size:18px}
 .ccf-btn-demo{width:100%;max-width:480px;min-height:56px;margin-top:10px;border:2px dashed var(--border2);border-radius:16px;background:var(--card);color:var(--text);font:800 18px Barlow,sans-serif;cursor:pointer}
 .ccf-btn-demo small{display:block;font-size:15px;font-weight:600;color:var(--muted)}
-#ccf-demo-barre{position:fixed;left:10px;bottom:calc(env(safe-area-inset-bottom,0px) + 10px);z-index:610;display:flex;align-items:center;gap:8px;flex-wrap:wrap;max-width:calc(100% - 300px);min-width:230px;padding:8px 10px;border-radius:14px;background:#6d28d9;color:#fff;font:700 15px Barlow,sans-serif;box-shadow:0 6px 20px rgba(0,0,0,.3)}
-#ccf-demo-barre span{font-weight:600;opacity:.9}
-#ccf-demo-barre button{min-height:44px;padding:0 12px;border:0;border-radius:10px;background:#fff;color:#1c2128;font:800 15px Barlow,sans-serif;cursor:pointer}
-#ccf-demo-barre button.q{background:#1c2128;color:#fff}
-body:not(.ccf-demo) #ccf-demo-barre{display:none}
+body.attr-ouvert .eps-demo{display:none!important}
+body.ccf-demo .eps-demo{max-width:calc(100% - 300px)} /* laisse la place au chrono en bas à droite */
 body.ccf-demo #pages-wrap{padding-bottom:110px}
-body.attr-ouvert #ccf-demo-barre{display:none}
-@media print{#ccf-demo-barre,.ccf-btn-demo{display:none!important}}
+@media print{.ccf-btn-demo{display:none!important}}
 .attr-ligne{display:flex;gap:6px;flex-shrink:0}
 .attr-ligne .attr-el{flex:1;min-width:0}
 .attr-ed{flex:0 0 52px;min-height:58px;border:2px solid var(--border2);border-radius:12px;background:var(--card);color:var(--text);font-size:22px;cursor:pointer}
@@ -3426,10 +3422,8 @@ function demoLancer(){
   selExam('gt');selMode('terrain');launch();
   var t=document.getElementById('hetag');if(t)t.textContent='DÉMO';
   goTab('c500-1');updateHdr&&updateHdr();
-  var b=document.getElementById('ccf-demo-barre');
-  if(!b){b=document.createElement('div');b.id='ccf-demo-barre';
-    b.innerHTML='<b>🎭 DÉMO</b><span>rien n’est enregistré</span><button type="button" onclick="demoArrivees()">⏱ Simuler 12 arrivées</button><button type="button" class="q" onclick="demoQuitter()">Quitter</button>';
-    document.body.appendChild(b);}
+  /* barre violette commune à toutes les applis (eps-demo.js) */
+  if(window.EPSDemo)EPSDemo.montrer({quitter:demoQuitter,actions:[{texte:'⏱ Simuler 12 arrivées',fn:demoArrivees}]});
   toast('🎭 Démo : Start puis PASSAGE');
 }
 function demoArrivees(){
@@ -3522,5 +3516,6 @@ document.addEventListener('visibilitychange',bg);addEventListener('pagehide',fun
 <script src="eps-aide.js"></script>
 <script>if('serviceWorker' in navigator&&location.protocol==='https:'){addEventListener('load',function(){navigator.serviceWorker.register('sw.js').catch(function(){})})}</script>
 <script src="eps-maj.js"></script>
+<script src="eps-demo.js"></script>
 </body>
 </html>
