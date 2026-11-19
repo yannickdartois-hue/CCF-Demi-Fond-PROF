@@ -1161,6 +1161,20 @@ body:not(.ccf-demo) #ccf-demo-barre{display:none}
 body.ccf-demo #pages-wrap{padding-bottom:110px}
 body.attr-ouvert #ccf-demo-barre{display:none}
 @media print{#ccf-demo-barre,.ccf-btn-demo{display:none!important}}
+.attr-ligne{display:flex;gap:6px;flex-shrink:0}
+.attr-ligne .attr-el{flex:1;min-width:0}
+.attr-ed{flex:0 0 52px;min-height:58px;border:2px solid var(--border2);border-radius:12px;background:var(--card);color:var(--text);font-size:22px;cursor:pointer}
+.attr-ed:active{border-color:var(--orange);background:var(--orange-bg)}
+.attr-modal{position:absolute;inset:0;z-index:5;background:rgba(0,0,0,.55);display:flex;align-items:flex-start;justify-content:center;padding:60px 14px 14px}
+.attr-boite{background:var(--card);color:var(--text);border-radius:18px;padding:18px;width:100%;max-width:420px;box-shadow:0 20px 50px rgba(0,0,0,.35);font-family:Barlow,sans-serif}
+.attr-bt{font-size:20px;margin-bottom:12px}
+.attr-boite input{width:100%;height:72px;border:2.5px solid var(--orange);border-radius:14px;background:var(--input-bg);color:var(--text);font:700 40px 'JetBrains Mono',monospace;text-align:center}
+.attr-aide{font-size:15px;color:var(--muted);margin-top:6px}
+.attr-err{min-height:22px;font-size:15px;font-weight:700;color:var(--red);margin-top:4px}
+.attr-bb{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+.attr-bb button{flex:1 1 120px;min-height:56px;border-radius:12px;border:2px solid var(--border2);background:var(--card);color:var(--text);font:800 17px Barlow,sans-serif;cursor:pointer}
+.attr-bb .ok{background:var(--orange);border-color:var(--orange);color:#fff}
+.attr-bb .eff{color:var(--red)}
 @media print{#attr-ecran{display:none!important}}
 </style>
 </head>
@@ -3299,10 +3313,11 @@ function attrRendre(){
   lst.forEach(function(e){
     var idx=eleves.indexOf(e),st=e.statut||'ok',r=e[key];
     var cls='attr-el'+(st!=='ok'?' off':r?' fait':'');
-    g+='<button type="button" class="'+cls+'" '+(st!=='ok'?'disabled':'onclick="attrDonner('+idx+')"')+'>'+
+    g+='<div class="attr-ligne"><button type="button" class="'+cls+'" '+(st!=='ok'?'disabled':'onclick="attrDonner('+idx+')"')+'>'+
       '<span class="attr-n">'+(idx+1)+'</span>'+
       '<span class="attr-nom">'+_esc(e.prenom)+' <b>'+_esc(e.nom)+'</b><small>'+_esc(e.classe)+'</small></span>'+
-      '<span class="attr-t">'+(st==='abs'?'ABS':st==='disp'?'DISP':r?s2mss(r.tSec):'')+'</span></button>';
+      '<span class="attr-t">'+(st==='abs'?'ABS':st==='disp'?'DISP':r?s2mss(r.tSec):'')+'</span></button>'+
+      (st==='ok'?'<button type="button" class="attr-ed" title="Taper le temps" aria-label="Taper le temps de '+_esc(e.prenom)+' '+_esc(e.nom)+'" onclick="attrSaisir('+idx+')">✎</button>':'')+'</div>';
   });
   var d='';
   _splits.forEach(function(s,i){
@@ -3327,10 +3342,37 @@ function attrRendre(){
   var sel=dl.querySelector('.sel');
   if(sel&&(sel.offsetTop<dl.scrollTop||sel.offsetTop+sel.offsetHeight>dl.scrollTop+dl.clientHeight))dl.scrollTop=sel.offsetTop-8;
 }
+/* Saisie tapée du temps (erreur de chrono, temps relevé à la main) */
+function attrSaisir(idx){
+  var e=eleves[idx],key=_attrKey(),r=e[key];
+  var m=document.createElement('div');m.className='attr-modal';
+  m.innerHTML='<div class="attr-boite"><div class="attr-bt">Temps de '+_esc(e.prenom)+' <b>'+_esc(e.nom)+'</b></div>'+
+    '<input type="text" inputmode="decimal" autocomplete="off" placeholder="m:ss" value="'+(r?s2mss(r.tSec):'')+'">'+
+    '<div class="attr-aide">Exemples : 1:52 · 1.52 · 2:05</div><div class="attr-err"></div>'+
+    '<div class="attr-bb"><button type="button" class="ok">Valider</button>'+(r?'<button type="button" class="eff">Effacer le temps</button>':'')+'<button type="button" class="an">Annuler</button></div></div>';
+  document.getElementById('attr-ecran').appendChild(m);
+  var inp=m.querySelector('input'),err=m.querySelector('.attr-err');
+  function fermer(){m.remove();}
+  function poser(val){
+    _attrHist.push({idx:idx,key:key,avant:r?JSON.parse(JSON.stringify(r)):null,split:null});
+    saveTime(_currentTabId,idx,{value:val,classList:{add:function(){},remove:function(){}}});
+    fermer();attrRendre();
+  }
+  m.querySelector('.ok').onclick=function(){
+    var v=inp.value.trim().replace(',',':').replace('.',':'),ok=/^\d{1,2}:\d{2}$/.test(v)&&parseInt(v.split(':')[1],10)<60&&pmss(v)>0;
+    if(!ok){err.textContent='⚠️ Format attendu : minutes:secondes (ex. 1:52)';inp.focus();return;}
+    poser(v);toast('✏️ '+v+' → '+e.prenom+' '+e.nom);
+  };
+  var eff=m.querySelector('.eff');if(eff)eff.onclick=function(){if(confirm('Effacer le temps de '+e.prenom+' '+e.nom+' ?')){poser('');toast('Temps effacé');}};
+  m.querySelector('.an').onclick=fermer;
+  m.addEventListener('click',function(ev){if(ev.target===m)fermer();});
+  inp.addEventListener('keydown',function(ev){if(ev.key==='Enter')m.querySelector('.ok').click();});
+  setTimeout(function(){inp.focus();inp.select();},50);
+}
 function attrChoisir(i){_attrSel=i;attrRendre();}
 function attrDefiler(dir){var dl=document.querySelector('#attr-ecran .attr-d-liste');if(dl)dl.scrollBy({top:dir*dl.clientHeight*0.8,behavior:'smooth'});}
 function attrDonner(idx){
-  if(!_splits.length){toast('Plus aucun temps à attribuer');return;}
+  if(!_splits.length){attrSaisir(idx);return;}
   var key=_attrKey(),e=eleves[idx],s=_splits[_attrSel],t=s.t||s,clean=_fmtClean(t);
   if(e[key]&&!confirm(e.prenom+' '+e.nom+' a déjà un temps ('+s2mss(e[key].tSec)+').\nLe remplacer par '+clean+' ?'))return;
   _attrHist.push({idx:idx,key:key,avant:e[key]?JSON.parse(JSON.stringify(e[key])):null,split:s,pos:_attrSel});
@@ -3346,8 +3388,8 @@ function attrDonner(idx){
 function attrAnnuler(){
   var h=_attrHist.pop();if(!h)return;
   eleves[h.idx][h.key]=h.avant;updateBadges();saveState();
-  _splits.splice(h.pos,0,h.split);_attrSel=h.pos;
-  document.getElementById('chrono-undo').style.display='block';
+  if(h.split){_splits.splice(h.pos,0,h.split);_attrSel=h.pos;
+  document.getElementById('chrono-undo').style.display='block';}
   _renderSplits();toast('↩ Attribution annulée');attrRendre();
 }
 function attrSuppr(i){
