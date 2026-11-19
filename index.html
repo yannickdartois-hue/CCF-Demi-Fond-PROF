@@ -1102,6 +1102,67 @@ td.tdk.ok::after{content:" ✓";font-size:.75em}td.tdk.warn::after{content:" !";
 
 @media screen{:root{--bg:#f3f5f8;--border:#dde2e8;--border2:#c5ccd6;--text:#1c2128;--text2:#2b313b;--muted:#5b6470;--faint:#c5ccd6;--input-bg:#f8f9fb;--stripe:#f8f9fb}}
 </style>
+<style>
+/* ═══ Ajouts 20/11/2026 ═══ */
+/* Accueil : rien ne se tasse, le bandeau « Reprendre » ne recouvre plus « Démarrer » */
+#splash>*{flex-shrink:0}
+.ccf-reprendre{width:100%;max-width:480px;margin:0 0 10px;padding:14px 18px;border:0;border-radius:14px;background:var(--green);color:#fff;font:700 max(16px,var(--fs-min,15px))/1.3 Barlow,sans-serif;cursor:pointer;box-shadow:0 4px 16px rgba(0,0,0,.15);text-align:center}
+/* Numéro de l'élève : on le touche pour changer de place */
+.cc .ccnum{cursor:pointer;position:relative}
+.cc .ccnum::after{content:'↕';position:absolute;right:-4px;bottom:-4px;font-size:11px;line-height:1;background:var(--card);color:var(--text);border:1px solid var(--border2);border-radius:6px;padding:1px 2px}
+/* Petit chrono */
+.splits-list{-webkit-overflow-scrolling:touch;overscroll-behavior:contain}
+.split-item.tappable{touch-action:pan-y}
+.chrono-grand{display:block;width:100%;min-height:52px;border:0;border-top:1px solid var(--border);background:var(--orange);color:#fff;font:800 17px/1.2 'Barlow Condensed',sans-serif;text-transform:uppercase;letter-spacing:.04em;cursor:pointer}
+/* Grand écran d'attribution */
+#attr-ecran{position:fixed;inset:0;z-index:950;background:var(--bg);display:none;flex-direction:column;padding:max(22px,env(safe-area-inset-top)) max(10px,env(safe-area-inset-right)) max(10px,env(safe-area-inset-bottom)) max(10px,env(safe-area-inset-left))}
+#attr-ecran.open{display:flex}
+body.attr-ouvert .chrono-fab,body.attr-ouvert .epsa-btn{display:none!important}
+.attr-tete{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding-bottom:8px;border-bottom:2px solid var(--border)}
+.attr-titre{flex:1 1 240px;font:800 20px/1.2 'Barlow Condensed',sans-serif;color:var(--text)}
+.attr-titre small{display:block;font:600 15px/1.3 Barlow,sans-serif;color:var(--muted);margin-top:2px}
+.attr-b{min-height:52px;padding:0 16px;border-radius:12px;border:2px solid var(--border2);background:var(--card);color:var(--text);font:800 17px Barlow,sans-serif;cursor:pointer}
+.attr-b:disabled{opacity:.4}
+.attr-b.fermer{background:#1c2128;color:#fff;border-color:#1c2128}
+.attr-corps{flex:1;min-height:0;display:grid;grid-template-columns:minmax(0,1fr) minmax(190px,42%);gap:10px;padding-top:8px}
+.attr-g{overflow-y:auto;-webkit-overflow-scrolling:touch;display:flex;flex-direction:column;gap:6px;padding-right:2px}
+.attr-el{display:flex;align-items:center;gap:10px;min-height:58px;padding:6px 10px;border:2px solid var(--border);border-radius:12px;background:var(--card);color:var(--text);text-align:left;cursor:pointer;font-family:Barlow,sans-serif;flex-shrink:0}
+.attr-el:active{border-color:var(--orange);background:var(--orange-bg)}
+.attr-el.fait{background:var(--stripe);border-style:dashed}
+.attr-el.fait .attr-nom{color:var(--muted)}
+.attr-el.off{opacity:.45;cursor:default}
+.attr-n{min-width:34px;height:34px;border-radius:9px;background:var(--orange);color:#fff;display:grid;place-items:center;font:800 16px 'JetBrains Mono',monospace}
+.attr-nom{flex:1;min-width:0;font-size:18px;line-height:1.2;overflow:hidden;text-overflow:ellipsis}
+.attr-nom small{display:block;font-size:15px;color:var(--muted)}
+.attr-t{font:700 20px 'JetBrains Mono',monospace;color:var(--green);white-space:nowrap}
+.attr-d{display:flex;flex-direction:column;gap:6px;min-height:0;border-left:2px solid var(--border);padding-left:10px}
+.attr-fl{min-height:52px;border:2px solid var(--border2);border-radius:12px;background:var(--card);color:var(--text);font-size:24px;cursor:pointer;flex-shrink:0}
+.attr-d-liste{flex:1;min-height:0;overflow-y:scroll;-webkit-overflow-scrolling:touch;display:flex;flex-direction:column;gap:6px;padding-right:6px;scrollbar-width:auto;scrollbar-color:var(--orange) var(--input-bg)}
+.attr-d-liste::-webkit-scrollbar{width:18px}
+.attr-d-liste::-webkit-scrollbar-track{background:var(--input-bg);border-radius:9px}
+.attr-d-liste::-webkit-scrollbar-thumb{background:var(--orange);border-radius:9px;border:3px solid var(--input-bg)}
+.attr-tps{display:flex;align-items:center;gap:8px;min-height:62px;padding:4px 6px 4px 10px;border:2.5px solid var(--border);border-radius:12px;background:var(--card);cursor:pointer;flex-shrink:0}
+.attr-tps.sel{border-color:var(--orange);background:var(--orange-bg);box-shadow:0 0 0 2px var(--orange)}
+.attr-tn{min-width:30px;font:800 16px 'JetBrains Mono',monospace;color:var(--muted)}
+.attr-tv{flex:1;font:700 30px 'JetBrains Mono',monospace;color:var(--text)}
+.attr-tps.sel .attr-tv{color:var(--orange)}
+.attr-tx{width:44px;height:44px;border:0;border-radius:10px;background:transparent;color:var(--muted);font-size:24px;cursor:pointer}
+.attr-vide{padding:20px 10px;text-align:center;font:700 18px Barlow,sans-serif;color:var(--green)}
+.chrono-haut{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:6px 8px 6px 14px;background:var(--surface);border-bottom:1px solid var(--border);font:700 15px Barlow,sans-serif;color:var(--muted)}
+.chrono-haut .chrono-btn.reset{flex:0 0 auto;height:40px;padding:0 14px;border:1.5px solid var(--border2);border-radius:10px;background:var(--card)}
+.chrono-btns .chrono-btn.start,.chrono-btns .chrono-btn.stop{border-right:0;height:52px;font-size:18px}
+.ccf-btn-demo{width:100%;max-width:480px;min-height:56px;margin-top:10px;border:2px dashed var(--border2);border-radius:16px;background:var(--card);color:var(--text);font:800 18px Barlow,sans-serif;cursor:pointer}
+.ccf-btn-demo small{display:block;font-size:15px;font-weight:600;color:var(--muted)}
+#ccf-demo-barre{position:fixed;left:10px;bottom:calc(env(safe-area-inset-bottom,0px) + 10px);z-index:610;display:flex;align-items:center;gap:8px;flex-wrap:wrap;max-width:calc(100% - 300px);min-width:230px;padding:8px 10px;border-radius:14px;background:#6d28d9;color:#fff;font:700 15px Barlow,sans-serif;box-shadow:0 6px 20px rgba(0,0,0,.3)}
+#ccf-demo-barre span{font-weight:600;opacity:.9}
+#ccf-demo-barre button{min-height:44px;padding:0 12px;border:0;border-radius:10px;background:#fff;color:#1c2128;font:800 15px Barlow,sans-serif;cursor:pointer}
+#ccf-demo-barre button.q{background:#1c2128;color:#fff}
+body:not(.ccf-demo) #ccf-demo-barre{display:none}
+body.ccf-demo #pages-wrap{padding-bottom:110px}
+body.attr-ouvert #ccf-demo-barre{display:none}
+@media print{#ccf-demo-barre,.ccf-btn-demo{display:none!important}}
+@media print{#attr-ecran{display:none!important}}
+</style>
 </head>
 <body>
 
@@ -3137,16 +3198,268 @@ function toggleTheme(){
     var sp=document.getElementById('splash');
     if(sp){
       var banner=document.createElement('div');
-      banner.style.cssText='position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--green);color:#FFF;padding:12px 20px;border-radius:12px;font-size:max(14px,var(--fs-min,15px));font-weight:700;z-index:1000;cursor:pointer;white-space:nowrap;box-shadow:0 4px 20px rgba(0,0,0,.2);font-family:Barlow,sans-serif';
+      banner.className='ccf-reprendre';banner.setAttribute('role','button');
       banner.innerHTML='\ud83d\udd04 Session pr\u00e9c\u00e9dente disponible \u2014 <strong>Reprendre</strong>';
       banner.onclick=function(){banner.remove();launch();};
-      sp.appendChild(banner);
+      var _bl=sp.querySelector('.btn-launch');if(_bl)sp.insertBefore(banner,_bl);else sp.appendChild(banner);
     }
   }
 })();
 </script>
 
 
+
+<script>
+/* ═══ Ajouts 20/11/2026 (retours terrain tablette Android 8") — tout est ajouté à côté, rien du contenu existant n'est modifié ═══
+   1. Écran maintenu allumé pendant l'utilisation (Wake Lock).
+   2. Chrono : la liste des passages défile pendant la course (le dernier passage reste visible)
+      et peut être défilée au doigt (avant, toucher un temps bloquait le défilement).
+   3. Grand écran d'attribution après « Stop » : élèves à gauche, temps à droite.
+      On touche un temps (le 1er est déjà choisi), puis l'élève → le temps lui est donné.
+   4. Changer la place d'un élève : toucher son numéro et taper la nouvelle place. */
+
+/* ── 1. Écran allumé ── */
+(function(){
+  var lock=null,demande=false;
+  function actif(){var a=document.getElementById('app');return a&&a.style.display!=='none'&&document.visibilityState==='visible';}
+  function prendre(){
+    if(!('wakeLock' in navigator)||lock||demande||!actif())return;
+    demande=true;
+    navigator.wakeLock.request('screen').then(function(l){lock=l;demande=false;
+      l.addEventListener('release',function(){lock=null;});
+    }).catch(function(){demande=false;});
+  }
+  function lacher(){if(lock){try{lock.release();}catch(e){}lock=null;}}
+  document.addEventListener('visibilitychange',function(){if(document.visibilityState==='visible')prendre();});
+  /* le navigateur exige un geste : on (re)demande à chaque toucher, sans effet si déjà actif */
+  document.addEventListener('pointerdown',prendre,true);
+  var l0=window.launch;window.launch=function(){var r=l0.apply(this,arguments);prendre();return r;};
+  ['goHome','resetAll'].forEach(function(n){var f=window[n];if(f)window[n]=function(){var r=f.apply(this,arguments);if(!actif())lacher();return r;};});
+  window.ccfEcranAllume=function(){return !!lock;};
+})();
+
+/* ── 2. Liste des passages du petit chrono ── */
+_renderSplits=function(){
+  var el=document.getElementById('splits-list');el.innerHTML='';
+  var canDrag=!_chronoRunning;
+  _splits.forEach(function(s,i){
+    var t=s.t||s;var num=s.num||i+1;
+    var div=document.createElement('div');
+    div.className='split-item'+(canDrag?' tappable':' locked');
+    div.innerHTML='<span class="split-num">'+num+'</span><span class="split-time">'+_fmtClean(t)+'</span>'+(canDrag?'<button class="split-del" onclick="deleteSplit('+i+')">×</button>':'');
+    if(canDrag){
+      div.setAttribute('draggable','true');
+      div.addEventListener('dragstart',function(e){_dragSplitTime=t;_dragSplitIdx=i;div.classList.add('dragging');if(e.dataTransfer)e.dataTransfer.setData('text/plain',t);});
+      div.addEventListener('dragend',function(){div.classList.remove('dragging');});
+      /* doigt : glisser vers la gauche = attraper le temps ; glisser vers le haut/bas = faire défiler la liste */
+      div.addEventListener('touchstart',function(e){
+        if(e.target.closest('.split-del'))return;
+        var t0=e.touches[0],x0=t0.clientX,y0=t0.clientY,fini=false;
+        function mv(ev){if(fini)return;var p=ev.touches[0],dx=p.clientX-x0,dy=p.clientY-y0;
+          if(Math.abs(dx)>12&&Math.abs(dx)>Math.abs(dy)){fini=true;stop();_dragSplitTime=t;_dragSplitIdx=i;div.classList.add('dragging');_touchDragStart(ev,t,i);}
+          else if(Math.abs(dy)>12){fini=true;stop();}}
+        function stop(){div.removeEventListener('touchmove',mv);div.removeEventListener('touchend',stop);}
+        div.addEventListener('touchmove',mv,{passive:false});div.addEventListener('touchend',stop);
+      },{passive:true});
+      div.querySelector('.split-time').addEventListener('click',function(e){e.stopPropagation();_assignToFirst(t,i);});
+    }
+    el.appendChild(div);
+  });
+  if(_chronoRunning)el.scrollTop=el.scrollHeight; /* le dernier passage reste visible */
+  var gb=document.getElementById('chrono-grand');
+  if(gb)gb.style.display=(!_chronoRunning&&_splits.length&&_currentTabId&&/^c500/.test(_currentTabId))?'block':'none';
+};
+
+/* ── 3. Grand écran d'attribution ── */
+var _attrSel=0,_attrHist=[];
+function _attrKey(){return _currentTabId==='c500-2'?'r500_2':'r500_1';}
+function _attrTitre(){var b=document.querySelector('#tb-'+_currentTabId+' .tl');return b?b.textContent.trim():'500 m';}
+function _esc(x){return String(x==null?'':x).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+function attrOuvrir(){
+  if(!_currentTabId||!/^c500/.test(_currentTabId))return;
+  if(_chronoRunning){toast('Arrêtez d\'abord le chrono');return;}
+  _attrSel=0;_attrHist=[];
+  var o=document.getElementById('attr-ecran');
+  if(!o){o=document.createElement('div');o.id='attr-ecran';document.body.appendChild(o);}
+  o.classList.add('open');document.body.classList.add('attr-ouvert');
+  attrRendre();
+}
+function attrFermer(){
+  var o=document.getElementById('attr-ecran');if(o)o.classList.remove('open');
+  document.body.classList.remove('attr-ouvert');
+  if(_currentTabId)renderCourseTab(_currentTabId);
+}
+function attrRendre(){
+  var o=document.getElementById('attr-ecran');if(!o||!o.classList.contains('open'))return;
+  var key=_attrKey();
+  if(_attrSel>=_splits.length)_attrSel=Math.max(0,_splits.length-1);
+  var lst=filteredEleves();
+  var sansTemps=lst.filter(function(e){return (e.statut||'ok')==='ok'&&!e[key];}).length;
+  var g='';
+  lst.forEach(function(e){
+    var idx=eleves.indexOf(e),st=e.statut||'ok',r=e[key];
+    var cls='attr-el'+(st!=='ok'?' off':r?' fait':'');
+    g+='<button type="button" class="'+cls+'" '+(st!=='ok'?'disabled':'onclick="attrDonner('+idx+')"')+'>'+
+      '<span class="attr-n">'+(idx+1)+'</span>'+
+      '<span class="attr-nom">'+_esc(e.prenom)+' <b>'+_esc(e.nom)+'</b><small>'+_esc(e.classe)+'</small></span>'+
+      '<span class="attr-t">'+(st==='abs'?'ABS':st==='disp'?'DISP':r?s2mss(r.tSec):'')+'</span></button>';
+  });
+  var d='';
+  _splits.forEach(function(s,i){
+    var t=s.t||s,num=s.num||i+1;
+    d+='<div class="attr-tps'+(i===_attrSel?' sel':'')+'" onclick="attrChoisir('+i+')">'+
+      '<span class="attr-tn">'+num+'</span><span class="attr-tv">'+_fmtClean(t)+'</span>'+
+      '<button type="button" class="attr-tx" title="Supprimer ce passage" onclick="event.stopPropagation();attrSuppr('+i+')">×</button></div>';
+  });
+  if(!_splits.length)d='<div class="attr-vide">✅ Tous les temps sont attribués</div>';
+  var scrollG=o.querySelector('.attr-g'),scrollD=o.querySelector('.attr-d-liste');
+  var sg=scrollG?scrollG.scrollTop:0,sd=scrollD?scrollD.scrollTop:0;
+  o.innerHTML='<div class="attr-tete">'+
+      '<div class="attr-titre">Attribuer les temps · '+_esc(_attrTitre())+'<small>'+(_splits.length?'1. Touchez un temps (à droite) · 2. Touchez l\'élève (à gauche)':'Terminé')+' — '+_splits.length+' temps restant(s) · '+sansTemps+' élève(s) sans temps</small></div>'+
+      '<button type="button" class="attr-b" onclick="attrAnnuler()"'+(_attrHist.length?'':' disabled')+'>↩ Annuler</button>'+
+      '<button type="button" class="attr-b fermer" onclick="attrFermer()">Fermer ✕</button></div>'+
+    '<div class="attr-corps"><div class="attr-g">'+g+'</div>'+
+      '<div class="attr-d"><button type="button" class="attr-fl" onclick="attrDefiler(-1)" aria-label="Monter">▲</button>'+
+        '<div class="attr-d-liste">'+d+'</div>'+
+        '<button type="button" class="attr-fl" onclick="attrDefiler(1)" aria-label="Descendre">▼</button></div></div>';
+  o.querySelector('.attr-g').scrollTop=sg;
+  var dl=o.querySelector('.attr-d-liste');dl.scrollTop=sd;
+  var sel=dl.querySelector('.sel');
+  if(sel&&(sel.offsetTop<dl.scrollTop||sel.offsetTop+sel.offsetHeight>dl.scrollTop+dl.clientHeight))dl.scrollTop=sel.offsetTop-8;
+}
+function attrChoisir(i){_attrSel=i;attrRendre();}
+function attrDefiler(dir){var dl=document.querySelector('#attr-ecran .attr-d-liste');if(dl)dl.scrollBy({top:dir*dl.clientHeight*0.8,behavior:'smooth'});}
+function attrDonner(idx){
+  if(!_splits.length){toast('Plus aucun temps à attribuer');return;}
+  var key=_attrKey(),e=eleves[idx],s=_splits[_attrSel],t=s.t||s,clean=_fmtClean(t);
+  if(e[key]&&!confirm(e.prenom+' '+e.nom+' a déjà un temps ('+s2mss(e[key].tSec)+').\nLe remplacer par '+clean+' ?'))return;
+  _attrHist.push({idx:idx,key:key,avant:e[key]?JSON.parse(JSON.stringify(e[key])):null,split:s,pos:_attrSel});
+  var faux={value:clean,classList:{add:function(){},remove:function(){}}};
+  saveTime(_currentTabId,idx,faux);
+  _splits.splice(_attrSel,1);
+  if(!_splits.length)document.getElementById('chrono-undo').style.display='none';
+  _renderSplits();
+  if(navigator.vibrate)navigator.vibrate(30);
+  toast('✅ '+clean+' → '+e.prenom+' '+e.nom);
+  attrRendre();
+}
+function attrAnnuler(){
+  var h=_attrHist.pop();if(!h)return;
+  eleves[h.idx][h.key]=h.avant;updateBadges();saveState();
+  _splits.splice(h.pos,0,h.split);_attrSel=h.pos;
+  document.getElementById('chrono-undo').style.display='block';
+  _renderSplits();toast('↩ Attribution annulée');attrRendre();
+}
+function attrSuppr(i){
+  var s=_splits[i];if(!confirm('Supprimer le passage n°'+(s.num||i+1)+' ('+_fmtClean(s.t||s)+') ?'))return;
+  _splits.splice(i,1);_renderSplits();attrRendre();
+}
+/* bouton « Grand écran » dans le petit chrono + ouverture automatique à l'arrêt */
+(function(){
+  var ul=document.getElementById('splits-list');
+  if(ul&&!document.getElementById('chrono-grand')){
+    var b=document.createElement('button');b.type='button';b.id='chrono-grand';b.className='chrono-grand';
+    b.textContent='⇔ Grand écran';b.onclick=attrOuvrir;b.style.display='none';
+    ul.parentNode.insertBefore(b,ul.nextSibling);
+  }
+  var f=window.chronoStartStop;
+  window.chronoStartStop=function(){var tournait=_chronoRunning;var r=f.apply(this,arguments);
+    if(tournait&&!_chronoRunning&&_splits.length&&/^c500/.test(_currentTabId||''))attrOuvrir();
+    return r;};
+  var h=window.chronoHide;window.chronoHide=function(){var r=h.apply(this,arguments);var o=document.getElementById('attr-ecran');if(o&&o.classList.contains('open'))attrFermer();return r;};
+})();
+
+/* ── 6. Mode démo : classe fictive de 28 élèves, rien n'est enregistré (la vraie session est remise en place en sortant) ── */
+var _demo=false,_demoSauve=null;
+function demoLancer(){
+  var K=['ccf_state','ccf_chrono'];_demoSauve={};
+  K.forEach(function(k){try{_demoSauve[k]=localStorage.getItem(k);}catch(e){}});
+  try{sessionStorage.setItem('ccf_demo_sauve',JSON.stringify(_demoSauve));}catch(e){}
+  _demo=true;document.body.classList.add('ccf-demo');
+  var P=['Lucas','Léa','Noah','Emma','Hugo','Chloé','Jules','Inès','Adam','Jade','Louis','Manon','Nathan','Camille','Arthur','Sarah','Tom','Lina','Enzo','Zoé','Léo','Lola','Gabriel','Anna','Raphaël','Rose','Mathis','Alice'];
+  var N=['MARTIN','DUPONT','BERNARD','ROBERT','PETIT','LEROY','MOREAU','SIMON','LAURENT','LEFEBVRE','MICHEL','GARCIA','DAVID','BERTRAND','ROUX','VINCENT','FOURNIER','MOREL','GIRARD','ANDRE','MERCIER','BLANC','GUERIN','BOYER','GARNIER','CHEVALIER','FRANCOIS','LEGRAND'];
+  if(_chronoRunning||_splits.length||_chronoElapsed){var f=window.__chronoResetBrut;if(f)f();}
+  EXAM='gt';MODE='terrain';_sessionName='DÉMO';
+  eleves=P.map(function(pr,i){return{nom:N[i],prenom:pr,classe:i<14?'TG1':'TG2',ddn:'',sexe:i%2?'F':'M',r500_1:null,r500_2:null,r130_1:null,r130_2:null,statut:i===9?'abs':i===20?'disp':'ok',commentaire:'',session:'1',_entr:{}};});
+  selExam('gt');selMode('terrain');launch();
+  var t=document.getElementById('hetag');if(t)t.textContent='DÉMO';
+  goTab('c500-1');updateHdr&&updateHdr();
+  var b=document.getElementById('ccf-demo-barre');
+  if(!b){b=document.createElement('div');b.id='ccf-demo-barre';
+    b.innerHTML='<b>🎭 DÉMO</b><span>rien n’est enregistré</span><button type="button" onclick="demoArrivees()">⏱ Simuler 12 arrivées</button><button type="button" class="q" onclick="demoQuitter()">Quitter</button>';
+    document.body.appendChild(b);}
+  toast('🎭 Démo : Start puis PASSAGE');
+}
+function demoArrivees(){
+  if(!_demo)return;
+  if(_chronoRunning)chronoStartStop();
+  var t=95+Math.random()*8,base=_splitBaseNum+_splits.length;
+  for(var i=0;i<12;i++){t+=1+Math.random()*7;var ms=Math.round(t*1000);_splits.push({t:_fmtMs(ms),num:base+i+1});_chronoElapsed=ms;}
+  document.getElementById('chrono-time').textContent=_fmtMs(_chronoElapsed);
+  document.getElementById('chrono-status').textContent='Arrêté — glissez les temps sur les élèves';
+  document.getElementById('chrono-undo').style.display='block';
+  _renderSplits();attrOuvrir();
+}
+function _demoRemettre(){
+  var o=_demoSauve;if(!o){try{o=JSON.parse(sessionStorage.getItem('ccf_demo_sauve')||'null');}catch(e){}}
+  if(!o)return;
+  Object.keys(o).forEach(function(k){try{if(o[k]==null)localStorage.removeItem(k);else localStorage.setItem(k,o[k]);}catch(e){}});
+}
+function demoQuitter(){
+  /* _demo reste vrai jusqu'au rechargement : aucune sauvegarde ne doit écraser la vraie session */
+  _demoRemettre();try{sessionStorage.removeItem('ccf_demo_sauve');}catch(e){}
+  location.reload();
+}
+(function(){
+  /* au chargement : si la page a été fermée en pleine démo, on remet la vraie session */
+  try{if(sessionStorage.getItem('ccf_demo_sauve')){_demoRemettre();sessionStorage.removeItem('ccf_demo_sauve');}}catch(e){}
+  /* pendant la démo, rien n'est écrit sur l'appareil */
+  var sv=window.saveState;window.saveState=function(){if(_demo)return;return sv.apply(this,arguments);};
+  addEventListener('pagehide',function(){if(_demo)_demoRemettre();});
+  addEventListener('eps-avant-maj',function(){if(_demo)_demoRemettre();});
+  /* démo : au départ, le chrono démarre à 1:30 pour obtenir des temps réalistes en touchant PASSAGE */
+  var ss=window.chronoStartStop;window.chronoStartStop=function(){var dep=!_chronoRunning&&!_chronoElapsed;var r=ss.apply(this,arguments);if(_demo&&dep&&_chronoRunning)_chronoStart-=90000;return r;};
+  /* Quitter l'outil (⚙) pendant la démo = quitter la démo */
+  var gh=window.goHome;window.goHome=function(){if(_demo){demoQuitter();return;}return gh.apply(this,arguments);};
+  /* bouton sur l'accueil */
+  var bl=document.querySelector('#splash .btn-launch');
+  if(bl&&!document.getElementById('btn-demo')){var d=document.createElement('button');d.type='button';d.id='btn-demo';d.className='ccf-btn-demo';
+    d.innerHTML='🎭 Mode démo <small>classe fictive · rien n’est enregistré</small>';d.onclick=demoLancer;bl.parentNode.insertBefore(d,bl.nextSibling);}
+})();
+
+/* ── 5. Bouton Reset déplacé en haut du chrono, loin de PASSAGE (retour terrain 20/11/2026) ── */
+(function(){
+  var r=document.querySelector('.chrono-btn.reset'),panel=document.querySelector('.chrono-panel');
+  if(r&&panel&&!document.querySelector('.chrono-haut')){
+    var h=document.createElement('div');h.className='chrono-haut';
+    h.innerHTML='<span>Chrono</span>';h.appendChild(r);panel.insertBefore(h,panel.firstChild);
+  }
+  var f=window.chronoReset;window.__chronoResetBrut=f;
+  window.chronoReset=function(){
+    if((_chronoRunning||_splits.length)&&!confirm('Remettre le chrono à zéro ?'+(_splits.length?'\n'+_splits.length+' temps non attribué(s) seront perdus.':'')))return;
+    return f.apply(this,arguments);
+  };
+})();
+
+/* ── 4. Changer la place d'un élève en tapant le numéro ── */
+function moveEleveTo(idx,place){
+  var to=Math.max(0,Math.min(eleves.length-1,place-1));
+  if(to===idx)return;
+  var e=eleves.splice(idx,1)[0];eleves.splice(to,0,e);
+  saveState();
+  var a=document.querySelector('.tabb.active');if(a)renderCourseTab(a.id.replace('tb-',''));
+  toast('↕ '+e.prenom+' '+e.nom+' → place '+(to+1));
+}
+document.addEventListener('click',function(ev){
+  var n=ev.target.closest&&ev.target.closest('.cc .ccnum');if(!n)return;
+  var cc=n.closest('.cc'),m=cc&&cc.id.match(/-(\d+)$/);if(!m)return;
+  var idx=parseInt(m[1],10),e=eleves[idx];if(!e)return;
+  var v=prompt('Nouvelle place pour '+e.prenom+' '+e.nom+' (actuellement n°'+(idx+1)+')\nTaper un numéro entre 1 et '+eleves.length+' :','');
+  if(v==null)return;var p=parseInt(String(v).trim(),10);
+  if(!p||p<1||p>eleves.length){toast('⚠️ Numéro invalide (1 à '+eleves.length+')');return;}
+  moveEleveTo(idx,p);
+});
+</script>
 
 <script>
 /* Chrono qui survit au rechargement et à la mise en veille : état gardé sur l'appareil, calculé sur l'heure réelle. */

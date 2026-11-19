@@ -21,6 +21,13 @@ publics:[{id:'prof',titre:'Professeur',chapitres:[
 {t:'Absents, dispensés, ordre de passage',html:`<ul>
 <li><span class="bouton">ABS</span> / <span class="bouton">DISP</span> à droite du nom : l’élève sort de la moyenne de classe.</li>
 <li>▲ ▼ : remettez les élèves dans l’ordre des séries.</li></ul>`},
+{t:'Grand écran d’attribution, changer de place, écran allumé',html:`<ul>
+<li>Après <span class="bouton">■ Stop</span>, le <b>grand écran d’attribution</b> s’ouvre : élèves à gauche, temps à droite (flèches ▲ ▼ ou barre de défilement). Le 1er temps est déjà choisi : touchez l’élève, le temps lui est donné et le suivant est choisi. Touchez un autre temps pour en choisir un autre. <span class="bouton">↩ Annuler</span> reprend la dernière attribution. Rouvrir : bouton <span class="bouton">⇔ Grand écran</span> du chrono.</li>
+<li>Le bouton <span class="bouton">↺ Reset</span> est en haut du chrono, loin de PASSAGE, et demande confirmation s’il reste des temps.</li>
+<li>Pendant la course, la liste des passages du petit chrono défile seule : le dernier passage reste visible.</li>
+<li><b>Changer la place d’un élève</b> : touchez son numéro (pastille ↕), tapez la nouvelle place (ex. 3). Les flèches ▲ ▼ restent disponibles.</li>
+<li><b>Mode démo</b> (bouton sur l’accueil) : classe fictive de 28 élèves pour s’entraîner. <span class="bouton">⏱ Simuler 12 arrivées</span> remplit le chrono et ouvre le grand écran. Rien n’est enregistré : en sortant (<span class="bouton">Quitter</span> ou ⚙), la vraie session revient telle quelle.</li>
+<li>L’écran de la tablette <b>reste allumé</b> tant que l’outil est ouvert (il se remet en veille normalement à l’accueil ou si on quitte l’outil).</li></ul>`},
 {t:'Résultats, exports, sauvegarde',html:`<ul>
 <li><b>Résultats</b> : notes /20 (G&T : AFL1 /12 calculée ; Pro et CAP : /8), <b>Stats</b> : moyennes et répartition.</li>
 <li>Exports : <b>Excel</b> (données + récapitulatif), <b>CSV</b>, <b>impression</b> A4 paysage, <b>JSON</b> pour passer la session sur une autre tablette sans réseau.</li>
